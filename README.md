@@ -20,7 +20,7 @@ How we are going to do it:
 
 -Which tools/libraries we are going to use
 
--Assumptions we are making
+-Assumptions we are using
 
  
 ## Breakdown of Tasks
