@@ -13,11 +13,15 @@ Basically, we want Bot Carolina to beat Normal Carolina.
 
 ### How we are going to do it:
 
--Platform of choice: Alpaca, creating a white-labeled bot to trade securities
+-*Platform of choice*: 
 
--Which tools/libraries we are going to use: most likely scikit and tensor flow
+Alpaca, creating a white-labeled bot to trade securities
 
--Assumptions we are using: 
+-*Which tools/libraries we are going to use*: 
+
+Most likely scikit and tensor flow
+
+-*Assumptions we are using*: 
 
 60 minute trading intervals, bollinger/keltner bands (2 standard deviations and 20 periods), exponential moving average (slow=21, fast=9), *(probably) highly liquid securities*, long positions, backdate 1 year and then scale
 
