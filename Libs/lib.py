@@ -85,7 +85,7 @@ def keltner_channel():
 
 def x_mov_crossover():
 
-def all_signals(bollinger, keltner, crossover)
+def signal_generator(bollinger, keltner, crossover)
 
 def trade_strategy_modeling(all_signals):
 
