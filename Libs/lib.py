@@ -82,15 +82,22 @@ def bollinger_band_signal_generator(dataframe_name, closing_price_column_name = 
     return dataframe_name
 
 def keltner_channel():
+    return True
 
 def x_mov_crossover():
+    return True
 
-def signal_generator(bollinger, keltner, crossover)
+def signal_generator(bollinger, keltner, crossover):
+    return True
 
 def trade_strategy_modeling(all_signals):
+    return True
 
 def execute_backtest(trade_strategy):
+    return True
 
-def create_dash(metrics_from_backtest)
+def create_dash(metrics_from_backtest):
+    return True
 
 def main(connector):
+    return True
