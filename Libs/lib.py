@@ -95,8 +95,31 @@ def ewma(dataframe_name, closing_price_column_name = 'close', fast_ema = 9, slow
     # Return dataframe with features and target
     return dataframe_name
 
-def signal_generator(bollinger, keltner, crossover):
-    return True
+def signals_generator(dataframe_name):
+    """Creates signals for long position
+    Args:
+        dataframe_name (dict): Dataframe containing indicator data for Bollinger Bands, EWMA, and Keltner Channels
+    Returns:
+
+    """
+    
+    # Create signal for bollinger band is inside keltner channel
+    selection = dataframe_name.loc[((dataframe_name['bollinger_band_upper'] < dataframe_name['kcup']) & (dataframe_name['bollinger_band_lower'] >= dataframe_name['kclo'])), :].index
+    dataframe_name['squeeze'] = 0.0
+    dataframe_name['squeeze'][selection] = 1
+
+    # Create signal for crossover band
+    selection2 = dataframe_name.loc[((dataframe_name['EMA9'] > dataframe_name['EMA21']) & (dataframe_name['EMA9'].shift(1) < dataframe_name['EMA21'].shift(1))), :].index
+    dataframe_name['crossover'] = 0.0
+    dataframe_name['crossover'][selection2] = 1
+
+    # Target generation
+    selection3 = dataframe_name.loc[((dataframe_name['squeeze'] == 1.0) & (dataframe_name['crossover'] == 1.0)), :].index
+    dataframe_name['target'] = 0.0
+    dataframe_name['target'][selection3] = 1
+
+    # Return dataframe with features and target
+    return dataframe_name
 
 def trade_strategy_modeling(all_signals):
     return True
