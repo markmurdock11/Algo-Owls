@@ -69,8 +69,17 @@ def bollinger_band_generator(dataframe_name, closing_price_column_name = 'close'
     # Return dataframe with features and target
     return dataframe_name
 
-def keltner_channel():
-    return True
+
+def keltner_channel(df_ohlc, p_length = 20):
+    
+    stock = sdf.retype(df_ohlc)
+    atr_column = pd.DataFrame(stock['atr'])
+    df_final['atr'] = atr_column
+    df_final['kcmid'] = df_final['close'].rolling(window=p_length).mean()
+    df_final['kcup'] = df_final['kcmid']+df_final['atr']
+    df_final['kclo'] = df_final['kcmid']-df_final['atr']
+    
+    return df_final
 
 def ewma(dataframe_name, closing_price_column_name = 'close', fast_ema = 9, slow_ema = 21):
     # create EMAs columns
