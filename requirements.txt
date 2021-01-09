@@ -10,6 +10,7 @@ decorator==4.4.2
 holoviews==1.14.1
 idna==2.10
 importlib-metadata==3.3.0
+int-date==0.1.8
 ipykernel==5.4.2
 ipython==7.19.0
 ipython-genutils==0.2.0
@@ -45,6 +46,7 @@ requests==2.25.1
 scikit-learn==0.24.0
 scipy==1.6.0
 six==1.15.0
+stockstats==0.3.2
 threadpoolctl==2.1.0
 tornado==6.1
 tqdm==4.55.1
