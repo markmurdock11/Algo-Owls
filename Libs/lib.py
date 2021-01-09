@@ -39,10 +39,8 @@ def fetch_ohlcv(ticker, start_date= "2020-01-01", end_date = "2021-01-01"):
     
     return df_ticker[ticker]
 
-
-    # Bollinger Band function to capture signal
-def bollinger_band_signal_generator(dataframe_name, closing_price_column_name = 'close', bollinger_band_window = 20, num_standard_deviation = 2):
-    """Creates Bollinger Band indicator with signal for long position based on closing price
+def bollinger_band_generator(dataframe_name, closing_price_column_name = 'close', bollinger_band_window = 20, num_standard_deviation = 2):
+    """Creates Bollinger Band function
     Args:
         dataframe_name (dict): Single security dataframe containing at least closing prices
         closing_price_column_name (str): Name of column in dataframe containing closing prices
@@ -55,8 +53,8 @@ def bollinger_band_signal_generator(dataframe_name, closing_price_column_name = 
             bollinger_band_std (flt): Column of values to calculate standard deviation,
             bollinger_band_upper (flt): Column of values for upper band,
             bollinger_band_lower (flt): Column of values for lower band,
-            bollinger_band_long (flt): Column of generated signals (1.0 = True, 0.0 = False)
     """
+
     # Calculate mean and standard deviation
     dataframe_name['bollinger_band_middle'] = dataframe_name[closing_price_column_name].rolling(window=bollinger_band_window).mean()
     dataframe_name['bollinger_band_std'] = dataframe_name[closing_price_column_name].rolling(window=bollinger_band_window).std()
@@ -65,9 +63,6 @@ def bollinger_band_signal_generator(dataframe_name, closing_price_column_name = 
     dataframe_name['bollinger_band_upper'] = dataframe_name['bollinger_band_middle'] + (dataframe_name['bollinger_band_std'] * num_standard_deviation)
     dataframe_name['bollinger_band_lower'] = dataframe_name['bollinger_band_middle'] - (dataframe_name['bollinger_band_std'] * num_standard_deviation)
 
-    # Create signal column
-    dataframe_name['bollinger_band_long'] = np.where(dataframe_name[closing_price_column_name] > dataframe_name['bollinger_band_upper'], 1.0, 0.0)
-    
     # Drop NaN values
     dataframe_name.dropna(inplace=True)
 
@@ -77,8 +72,13 @@ def bollinger_band_signal_generator(dataframe_name, closing_price_column_name = 
 def keltner_channel():
     return True
 
-def x_mov_crossover():
-    return True
+def ewma(dataframe_name, closing_price_column_name = 'close', fast_ema = 9, slow_ema = 21):
+    # create EMAs columns
+    dataframe_name['EMA9'] = dataframe_name[closing_price_column_name].ewm(span=fast_ema, adjust=False).mean()
+    dataframe_name['EMA21'] = dataframe_name[closing_price_column_name].ewm(span=slow_ema, adjust=False).mean()
+
+    # Return dataframe with features and target
+    return dataframe_name
 
 def signal_generator(bollinger, keltner, crossover):
     return True
