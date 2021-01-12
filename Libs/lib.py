@@ -147,3 +147,19 @@ def create_dash(metrics_from_backtest):
 
 def main(connector):
     return True
+
+def append_df_columns(dataframe1, dataframe2, dataframe2_col_name, new_appended_col_name):
+    """Appends a column of data from one dataframe to another dataframe
+    Args:
+        dataframe1 (df): Dataframe to append new column on
+        dataframe2 (df): Dataframe to pull column of data from
+        dataframe2_col_name (str): Name of column to pull data from in dataframe2
+        new_appended_col_name (str): Name of new column name created
+    Returns:
+        A dataframe of original data found in dataframe1 and appended column of data from dataframe2
+    """
+    
+    dataframe1[new_appended_col_name] = dataframe2[dataframe2_col_name]
+    
+    # Return new dataframe
+    return dataframe1
