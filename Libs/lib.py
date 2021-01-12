@@ -95,12 +95,18 @@ def ewma(dataframe_name, closing_price_column_name = 'close', fast_ema = 9, slow
     # Return dataframe with features and target
     return dataframe_name
 
+# Signal generator function
 def signals_generator(dataframe_name):
     """Creates signals for long position
     Args:
         dataframe_name (dict): Dataframe containing indicator data for Bollinger Bands, EWMA, and Keltner Channels
     Returns:
-
+        A dataframe of:
+            original data passed to function,
+            appended squeeze column signals of type float (1.0 = True, 0.0 = False),
+            appended ema crossup column signals of type float (1.0 = True, 0.0 = False),
+            appended ema crossdown column signals of type float (-1.0 = True, 0.0 = False)
+            appended io_target column signals of type float (2.0 = Buy, -1.0 = Sell)
     """
     
     # Create signal for bollinger band is inside keltner channel
@@ -108,15 +114,24 @@ def signals_generator(dataframe_name):
     dataframe_name['squeeze'] = 0.0
     dataframe_name['squeeze'][selection] = 1
 
-    # Create signal for crossover band
+    # Create signal for crossover band (cross in the up direction)
     selection2 = dataframe_name.loc[((dataframe_name['EMA9'] > dataframe_name['EMA21']) & (dataframe_name['EMA9'].shift(1) < dataframe_name['EMA21'].shift(1))), :].index
-    dataframe_name['crossover'] = 0.0
-    dataframe_name['crossover'][selection2] = 1
+    dataframe_name['crossup'] = 0.0
+    dataframe_name['crossup'][selection2] = 1
 
-    # Target generation
-    selection3 = dataframe_name.loc[((dataframe_name['squeeze'] == 1.0) & (dataframe_name['crossover'] == 1.0)), :].index
+    # Create signal for crossover band (cross in the down direction)
+    selection3 = dataframe_name.loc[((dataframe_name['EMA9'] < dataframe_name['EMA21']) & (dataframe_name['EMA9'].shift(1) > dataframe_name['EMA21'].shift(1))), :].index
+    dataframe_name['crossdown'] = 0.0
+    dataframe_name['crossdown'][selection3] = -1
+
+    # Target generation (buy in)
+    selection4 = dataframe_name.loc[((dataframe_name['squeeze'] == 1.0) & (dataframe_name['crossup'] == 1.0)), :].index
     dataframe_name['target'] = 0.0
-    dataframe_name['target'][selection3] = 1
+    dataframe_name['target'][selection4] = 1
+
+    # In and Out target generation
+    for index, row in dataframe_name.iterrows():
+        dataframe_name.loc[index, 'io_target'] = row['squeeze'] + row['crossup'] + row['crossdown']
 
     # Return dataframe with features and target
     return dataframe_name
