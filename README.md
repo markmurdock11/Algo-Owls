@@ -17,7 +17,7 @@ A group project via the Rice University FinTech Bootcamp to demonstrate FinTech 
 
 ## General Information
 
-We are creating an algorithmic trading bot that uses a supervised machine learning model to analyze Bollinger Bands, Keltner Channel in conjunction with slow and fast Exponential Weighted Moving Averages to make buy decisions.
+We are creating an algorithmic trading bot that uses a supervised machine learning models using Tensorflow, Keras and Scikit-Learn libraries to analyze Bollinger Bands and Keltner Channels in conjunction with slow and fast Exponential Moving Averages to make buy decisions.
 
 ---
 
@@ -60,7 +60,7 @@ We are creating an algorithmic trading bot that uses a supervised machine learni
 
 ## Sources
 
-- [1]
+- [1] 
 
 - [2] 
 
