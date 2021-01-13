@@ -143,6 +143,100 @@ def signals_generator(dataframe_name):
     return dataframe_name
 
 
+def lstm(
+    dataframe,
+    num_feature_cols = 2, 
+    target_name = "target",
+    epochs_num = 10,
+    unit_number = 30,
+    dropout_fraction=.2    
+    ):
+
+    """
+    Make sure to have target in last column
+    """
+
+    X = dataframe.iloc[:, 0:num_feature_cols].values
+    
+    y = dataframe.iloc[:,-1].values
+    
+    X, y = np.array(X), np.array(y).reshape(-1,1)
+
+    # Manually splitting the data
+    split = int(0.7 * len(X))
+
+    X_train = X[: split]
+    X_test = X[split:]
+
+    y_train = y[: split]
+    y_test = y[split:]
+
+    # Importing the MinMaxScaler from sklearn
+    from sklearn.preprocessing import MinMaxScaler
+
+    # Create a MinMaxScaler object
+    scaler = MinMaxScaler()
+
+    # Fit the MinMaxScaler object with the features data X
+    scaler.fit(X)
+
+    # Scale the features training and testing sets
+    X_train = scaler.transform(X_train)
+    X_test = scaler.transform(X_test)
+
+    # Fit the MinMaxScaler object with the target data Y
+    scaler.fit(y)
+
+    # Scale the target training and testing sets
+    y_train = scaler.transform(y_train)
+    y_test = scaler.transform(y_test)
+
+    # Importing required Keras modules
+    from tensorflow.keras.models import Sequential
+    from tensorflow.keras.layers import LSTM, Dense, Dropout
+
+    # Define the LSTM RNN model.
+    model = Sequential()
+
+    # Layer 1
+    model.add(LSTM(
+        units=unit_number,
+        return_sequences=True,
+        input_shape=(X_train.shape[1], 1))
+        )
+    model.add(Dropout(dropout_fraction))
+
+    # Layer 2
+    model.add(LSTM(units=number_units, return_sequences=True))
+    model.add(Dropout(dropout_fraction))
+
+    # Layer 3
+    model.add(LSTM(units=number_units))
+    model.add(Dropout(dropout_fraction))
+
+    # Output layer
+    model.add(Dense(1))
+
+    # Compile the model
+    model.compile(optimizer="adam", loss="mean_squared_error")
+
+    # Train the model
+    model.fit(X_train, y_train, epochs= epechs_num, shuffle=False, batch_size=90, verbose=1)
+
+    # Make predictions using the testing data X_test
+    predicted = model.predict(X_test)
+
+    # Recover the original prices instead of the scaled version
+    predicted_prices = scaler.inverse_transform(predicted)
+    real_prices = scaler.inverse_transform(y_test.reshape(-1, 1))
+    # Create a DataFrame of Real and Predicted values
+    comparison = pd.DataFrame({
+        "Actual Target": real_prices.ravel(),
+        "Predicted Target": predicted_prices.ravel()
+    }, index = dataframe.index[-len(real_prices): ]) 
+
+    return model.summary(), model.evaluate(X_test, y_test, verbose=0), comparison.plot()
+    
 def trade_strategy_modeling(all_signals):
     return True
 
