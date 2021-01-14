@@ -371,7 +371,7 @@ def lstm1(
         "Predicted Target": predicted_prices.ravel()
     }, index = dataframe.index[-len(real_prices): ]) 
 
-    return model.summary(), model.evaluate(X_test, y_test, verbose=0), comparison.scatter()
+    return model.summary(), model.evaluate(X_test, y_test, verbose=0), comparison.plot()
 
 
 def trade_strategy_modeling(all_signals):
