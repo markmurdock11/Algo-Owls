@@ -237,6 +237,123 @@ def lstm(
 
     return model.summary(), model.evaluate(X_test, y_test, verbose=0), comparison.plot()
     
+def lstm1(
+    dataframe,
+    num_feature_cols = 2, 
+    target_name = "target",
+    epochs_num = 10,
+    unit_number = 30,
+    dropout_fraction=.2    
+    ):
+
+    """
+    Make sure to have target in last column
+    """
+
+    # Manually splitting the data
+
+    # Construct training start and training end dates
+
+    training_start = dataframe.index.min().strftime(format='%Y-%m-%d')
+    training_end = '2019-01-11'
+
+    # Construct test start and test end dates
+
+    testing_start = '2019-01-12'
+    testing_end = '2019-06-12'
+
+    # Construct validating start and validating end dates
+
+    vali_start = '2019-06-13'
+    vali_end = '2020-01-12'
+
+    # Construct the X_train and y_train datasets
+    X_train = dataframe[["squeeze", "emax_signal"]][training_start:training_end]
+    y_train = dataframe["target"][training_start:training_end]
+
+    X_test = dataframe[["squeeze", "emax_signal"]][testing_start:testing_end]
+    y_test = dataframe["target"][testing_start:testing_end]
+
+    
+    #X = dataframe.iloc[:, 0:num_feature_cols].values
+    
+    #y = dataframe.iloc[:,-1].values
+
+    #X, y = np.array(X), np.array(y).reshape(-1,1)
+
+    # Importing the MinMaxScaler from sklearn
+    from sklearn.preprocessing import MinMaxScaler
+
+    # Create a MinMaxScaler object
+    scaler = MinMaxScaler()
+
+    # Fit the MinMaxScaler object with the features data X
+    scaler.fit(X_train)
+
+    # Scale the features training and testing sets
+    X_train = scaler.transform(X_train)
+    X_test = scaler.transform(X_test)
+    y_train = y_train.values.reshape(-1,1)
+    y_test = y_test.values.reshape(-1,1)
+
+    # Fit the MinMaxScaler object with the target data Y
+    scaler.fit(y_train)
+
+    # Scale the target training and testing sets
+    y_train = scaler.transform(y_train)
+    y_test = scaler.transform(y_test)
+
+    
+    
+    # Importing required Keras modules
+    from tensorflow.keras.models import Sequential
+    from tensorflow.keras.layers import LSTM, Dense, Dropout
+
+    # Define the LSTM RNN model.
+    model = Sequential()
+    X_train = X_train.reshape(-1,1,2)
+    X_test = X_test.reshape(-1,1,2)    
+    print(X_train[1])
+    # Layer 1
+    model.add(LSTM(
+        units=unit_number,
+        return_sequences=True,
+        input_shape=(1,2)))
+        
+    model.add(Dropout(dropout_fraction))
+
+    # Layer 2
+    model.add(LSTM(units=unit_number, return_sequences=True))
+    model.add(Dropout(dropout_fraction))
+
+    # Layer 3
+    model.add(LSTM(units=unit_number, return_sequences=True))
+    model.add(Dropout(dropout_fraction))
+
+    # Output layer
+    model.add(Dense(1))
+
+    # Compile the model
+    model.compile(optimizer="adam", loss="mean_squared_error")
+    
+    print(model.summary())
+    # Train the model
+    model.fit(X_train, y_train, epochs= epochs_num, shuffle=False, batch_size=90, verbose=1)
+
+    # Make predictions using the testing data X_test
+    predicted = model.predict(X_test)
+    print(predicted)
+    # Recover the original prices instead of the scaled version
+    predicted_prices = scaler.inverse_transform(predicted.reshape(-1,1))
+    real_prices = scaler.inverse_transform(y_test.reshape(-1, 1))
+    # Create a DataFrame of Real and Predicted values
+    comparison = pd.DataFrame({
+        "Actual Target": real_prices.ravel(),
+        "Predicted Target": predicted_prices.ravel()
+    }, index = dataframe.index[-len(real_prices): ]) 
+
+    return model.summary(), model.evaluate(X_test, y_test, verbose=0), comparison.plot()
+
 def trade_strategy_modeling(all_signals):
     return True
 
