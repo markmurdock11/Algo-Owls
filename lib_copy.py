@@ -142,6 +142,25 @@ def signals_generator(dataframe_name):
     # Return dataframe with features and target
     return dataframe_name
 
+def target_generator(dataframe_name, col_name1, col_name2, target_col_name):
+    """Creates a target for long position
+    Args:
+        dataframe_name (dict): Dataframe containing indicator data (0's and 1's)
+        col_name1 (str): Name of first column name in dataframe to use for calculation
+        col_name2 (str): Name of second column name in dataframe to use for calculation
+        target_col_name (str): Name of target column name to create and store target values
+    Returns:
+        A dataframe of:
+            original data passed to function,
+            appended target column signals of type float (2.0, 1.0, 0.0)
+    """
+    
+    # Target generation
+    for index, row in dataframe_name.iterrows():
+        dataframe_name.loc[index, target_col_name] = row[col_name1] + row[col_name2]
+
+    # Return dataframe with features and target
+    return dataframe_name
 
 def lstm(
     dataframe,
@@ -313,7 +332,7 @@ def lstm1(
     model = Sequential()
     X_train = X_train.reshape(-1,1,2)
     X_test = X_test.reshape(-1,1,2)    
-    print(X_train[1])
+    #print(X_train[1])
     # Layer 1
     model.add(LSTM(
         units=unit_number,
@@ -336,13 +355,13 @@ def lstm1(
     # Compile the model
     model.compile(optimizer="adam", loss="mean_squared_error")
     
-    print(model.summary())
+    #print(model.summary())
     # Train the model
     model.fit(X_train, y_train, epochs= epochs_num, shuffle=False, batch_size=90, verbose=1)
 
     # Make predictions using the testing data X_test
     predicted = model.predict(X_test)
-    print(predicted)
+    #print(predicted)
     # Recover the original prices instead of the scaled version
     predicted_prices = scaler.inverse_transform(predicted.reshape(-1,1))
     real_prices = scaler.inverse_transform(y_test.reshape(-1, 1))
@@ -353,6 +372,7 @@ def lstm1(
     }, index = dataframe.index[-len(real_prices): ]) 
 
     return model.summary(), model.evaluate(X_test, y_test, verbose=0), comparison.plot()
+
 
 def trade_strategy_modeling(all_signals):
     return True
