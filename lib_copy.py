@@ -353,7 +353,7 @@ def lstm1(
     model.add(Dense(1))
 
     # Compile the model
-    model.compile(optimizer="adam", loss="mean_squared_error")
+    model.compile(optimizer="adagrad", loss="binary_crossentropy")
     
     #print(model.summary())
     # Train the model
@@ -371,7 +371,7 @@ def lstm1(
         "Predicted Target": predicted_prices.ravel()
     }, index = dataframe.index[-len(real_prices): ]) 
 
-    return model.summary(), model.evaluate(X_test, y_test, verbose=0), comparison.plot()
+    return model.summary(), model.evaluate(X_test, y_test, verbose=0), comparison.scatter()
 
 
 def trade_strategy_modeling(all_signals):
