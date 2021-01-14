@@ -17,13 +17,13 @@ A group project via the Rice University FinTech Bootcamp to demonstrate FinTech 
 
 ## General Information
 
-We are creating an algorithmic trading bot that uses a supervised machine learning models using Tensorflow, Keras and Scikit-Learn libraries to analyze Bollinger Bands and Keltner Channels in conjunction with slow and fast Exponential Moving Averages to make buy decisions.
+Securities trading can be complex for individuals and businesses.  Emotions can run wild and lead to dread, fear, hope, greed and envy, in no specific order.  Tring to control these emotions is a challenge, so this group decide to create the following repository to help us determine a strategy, test our theories and begin to automate our processes while incorporating some fintech we have learned in our bootcamp.  You will find the repository has the initial workings of an algorithmic trading bot that uses supervised machine learning models incorporating Tensorflow, Keras and Scikit-Learn libraries to analyze Bollinger Bands and Keltner Channels in conjunction with slow and fast Exponential Moving Averages to make buy decisions.
 
 ---
 
 ## Summary
 
-
+Our findings go here
 
 ---
 
