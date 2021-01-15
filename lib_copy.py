@@ -226,11 +226,11 @@ def lstm(
     model.add(Dropout(dropout_fraction))
 
     # Layer 2
-    model.add(LSTM(units=number_units, return_sequences=True))
+    model.add(LSTM(units=unit_number, return_sequences=True))
     model.add(Dropout(dropout_fraction))
 
     # Layer 3
-    model.add(LSTM(units=number_units))
+    model.add(LSTM(units=unit_number))
     model.add(Dropout(dropout_fraction))
 
     # Output layer
@@ -240,7 +240,7 @@ def lstm(
     model.compile(optimizer="adam", loss="mean_squared_error")
 
     # Train the model
-    model.fit(X_train, y_train, epochs= epechs_num, shuffle=False, batch_size=90, verbose=1)
+    model.fit(X_train, y_train, epochs= epochs_num, shuffle=False, batch_size=90, verbose=1)
 
     # Make predictions using the testing data X_test
     predicted = model.predict(X_test)
