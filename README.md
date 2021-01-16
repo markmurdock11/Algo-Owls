@@ -35,6 +35,9 @@ Securities trading can be complex for individuals and businesses.  Emotions can 
 * Strategy and Indicators (Bollinger Band Upper and Lower inside Keltner Channel Upper and Lower with EMA crossover in up direction)
 ![Strategy and Indicators](./Images/strategy_and_indicators.gif)
 
+* LSTM Price (Actual vs Predicted)
+![LSTM Price Plot](./Images/lstm_price_graph.png)
+
 ---
 
 ## Technologies
@@ -64,7 +67,43 @@ Securities trading can be complex for individuals and businesses.  Emotions can 
 
 ## Code Examples
 
+* Squeeze random forest code
+```python
+    #code goes here
+```
 
+* EMA random forest code
+```python
+    #code goes here
+```
+
+* LSTM price code
+```python
+    #code goes here
+```
+
+* Combined Squeeze and EMA target generator code for automation
+```python
+def target_generator(dataframe_name, col_name1, col_name2, target_col_name):
+    """Creates a target for long position
+    Args:
+        dataframe_name (dict): Dataframe containing indicator data (0's and 1's)
+        col_name1 (str): Name of first column name in dataframe to use for calculation
+        col_name2 (str): Name of second column name in dataframe to use for calculation
+        target_col_name (str): Name of target column name to create and store target values
+    Returns:
+        A dataframe of:
+            original data passed to function,
+            appended target column signals of type float (2.0, 1.0, 0.0)
+    """
+    
+    # Target generation
+    for index, row in dataframe_name.iterrows():
+        dataframe_name.loc[index, target_col_name] = row[col_name1] + row[col_name2]
+
+    # Return dataframe with features and target
+    return dataframe_name
+```
 
 ---
 
