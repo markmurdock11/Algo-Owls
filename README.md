@@ -33,9 +33,11 @@ Securities trading can be complex for individuals and businesses.  Emotions can 
 ## Screenshots
 
 * Strategy and Indicators (Bollinger Band Upper and Lower inside Keltner Channel Upper and Lower with EMA crossover in up direction)
+
 ![Strategy and Indicators](./Images/strategy_and_indicators.gif)
 
 * LSTM Price (Actual vs Predicted)
+
 ![LSTM Price Plot](./Images/lstm_price_graph.png)
 
 ---
