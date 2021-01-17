@@ -49,7 +49,7 @@ The metrics we considered important are Precision, since False Negatives are hig
 
 The Squeeze Random Forest Precision is 64%, however the specificity turns out of 67% (refer to the Classification Report- table 1).
 
-Since specificity needs to be increased (above 80%), this model needs more analysis and perhaps evaluation with more features to increase specificity thus reducing False Positives.
+Since specificity needs to be increased (above 80%), this model needs more analysis and perhaps adding more features to increase specificity thus reducing False Positives.
 
 <p style="text-align: center;"> <font size="4"> Table 1 </font></p>
 <table>
