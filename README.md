@@ -44,7 +44,47 @@ For simplification purposes we only focused on pedicting Bullish opportunities.
 
 ## Machine Learning "Squeeze" Predictions & Metrics:
 
-We designed a Random Forest Classifier, to predict the state of the market (Bulge or Squeeze) 15 mins (1 bar) ahead of occuring. The Machine Learning Model was designed with 11 features, 60% of the most relevant features utilizes 5 features: Bollinger Band upper band, Bollinger Band lower band, Keltnner Upband, Keltner Low Band and the 20 simple moving average.   
+We designed a Random Forest Classifier, to predict the state of the market (Bulge or Squeeze) 15 mins (1 bar) ahead of occuring. The Machine Learning Model was designed with 11 features, 60% of the most relevant features utilizes 5 features: Bollinger Band upper band, Bollinger Band lower band, Keltnner Upband, Keltner LowBand and the 20 simple moving average. 
+The metrics we considered important are Precision, since False Negatives are highly undesirable, and High Specificity, since high specificity means reduction of False Positives.
+
+The Squeeze Random Forest Precision is 64%, however the specificity turns out of 67% (refer to the Classification Report- table 1).
+
+Since specificity needs to be increased (above 80%), this model needs more analysis and perhaps evaluation with more features to increase specificity thus reducing False Positives.
+
+<p style="text-align: center;"> <font size="4"> Table 1 </font></p>
+<table>
+  <tr>
+    <td><font size="2">Squeeze Model Metrics</font></td>
+     <td><font size="2">EMA cross Model Metrics</font></td>
+     
+  </tr>
+  <tr>
+    <td><img src="Images/rf_squeeze_cmtable.png" width=250 height=150></td>
+    <td><img src="Images/rf_emas_cmtable.png" width=250 height=150></td>
+    
+  </tr>
+  <tr>
+    <td><img src="Images/class_report_squeeze_rf.png" width=250 height=180></td>
+    <td><img src="Images/class_report_emas_rf.png" width=250 height=180></td>
+    
+  </tr>
+  
+</table>
+
+
+<p style="text-align: center;"> <font size="4"> Table 2 </font></p>
+<table>
+  <tr>
+    <td><font size="2">Squeeze Model Precision Recall Curve</font></td>
+     <td><font size="2">EMA cross Model Precision Recall Curve</font></td>
+     
+  </tr>
+  <tr>
+    <td><img src="Images/prec_recal_curve_with_auc_squeeze.png" width=350 height=300></td>
+    <td><img src="Images/prec_recal_curve_with_auc_emas.png" width=350 height=300></td>
+    
+  </tr>
+  </table>
 
 ## Summary
 
