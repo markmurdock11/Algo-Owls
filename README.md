@@ -35,9 +35,16 @@ The modified Keltner Channel: We modified the legacy Keltner Channel [3] formula
 
 ### **Direction of the Move**
 
-Once the state of the market is identified, the direction for which the market is going to move needs to be anticipated. The identification of a squeeze and a Bulge **only** tell us that a breakout is about to occur.  
+Once the state of the market is identified, the direction for which the market is going to move needs to be anticipated, for that the crossover of 2 Exponential Moving Averages is used (the 9 period is the Fast Average while the 21 is the slow average). The identification of a squeeze and a Bulge **only** tell us that a breakout is about to occur. 
+
+When the fastEMA crosses above the slowEMA, it is considered a bull (we go Long) and when the fastEMA crossed below the slowEMA we go short.
+
+For simplification purposes we only focused on pedicting Bullish opportunities. 
 
 
+## Machine Learning "Squeeze" Predictions & Metrics:
+
+We designed a Random Forest Classifier, to predict the state of the market (Bulge or Squeeze) 15 mins (1 bar) ahead of occuring. The Machine Learning Model was designed with 11 features, 60% of the most relevant features utilizes 5 features: Bollinger Band upper band, Bollinger Band lower band, Keltnner Upband, Keltner Low Band and the 20 simple moving average.   
 
 ## Summary
 
