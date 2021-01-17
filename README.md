@@ -23,13 +23,19 @@ Securities trading can be complex for individuals and businesses.  Emotions can 
 
 ### **The Squeeze and the Bulge:**
 
-<img src=./Images/strategy_and_indicators.gif width="500" align="right" />The strategy is based on detecting two stages of the market: the squeeze and the bulge. The squeeze is the market sideways movement, kind of like a pause on the "trend" in which the market moves up and/or down for a period of time without making any new high or low, while the bulge is the stage in which the market is trending, creating higher highs or lower lows depending if the market is trending up or down. 
+The strategy is based on detecting two stages of the market: the squeeze and the bulge. The squeeze is the market sideways movement, kind of like a pause on the "trend" in which the market moves up and/or down for a period of time without making any new high or low, while the bulge is the stage in which the market is trending,<img src=./Images/strategy_and_indicators.gif width="500" align="right" /> creating higher highs or lower lows depending if the market is trending up or down. 
 
-Typically the market cycles between these two stages, in which it appears calm (when market has no new high or low) for a period of time and later moves (up or down) with clear or obvious direction. So, identifying
+Typically the market cycles between these two stages, in which it appears calm (when market has no new high or low) for a period of time and later moves (up or down) with clear or obvious direction. So, it can be infered that periods of squeeze precede bulges. 
 
 Is during these periods of apparent calm (sideways activity) or of a "squeeze" that we intent to get in.
 
-To objectively define the squeeze, we combined two indicators: the bollinger bands (https://www.bollingerbands.com/) and a modified Keltner Channel. Both indicators use 20 period, 2 Standard deviation for the Bollinger Bands, and 2 ATR (Average true range) for the Keltner Channel. 
+To objectively define the squeeze, we combined two indicators: the bollinger bands (https://www.bollingerbands.com/) and a modified Keltner Channel. Both indicators use 20 period length, 2 Standard deviations for the Bollinger Bands, and 2 ATR (Average true range) for the modified Keltner Channel. <img src=./Images/legacy_kc.png width="200" align="left" />  
+
+The modified Keltner Channel: We modified the legacy Keltner Channel [3] formula by only taking the close and applying the 20 period ATR [5] to the 20 period simple moving average.
+
+### **Direction of the Move**
+
+Once the state of the market is identified, the direction for which the market is going to move needs to be anticipated. The identification of a squeeze and a Bulge **only** tell us that a breakout is about to occur.  
 
 
 
@@ -132,7 +138,7 @@ def target_generator(dataframe_name, col_name1, col_name2, target_col_name):
 
 - [4] https://en.wikipedia.org/wiki/Bollinger_Bands
 
-- [5]
+- [5] https://en.wikipedia.org/wiki/Average_true_range
 
 ---
 
