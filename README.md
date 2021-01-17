@@ -19,6 +19,19 @@ A group project via the Rice University FinTech Bootcamp to demonstrate FinTech 
 Securities trading can be complex for individuals and businesses.  Emotions can run wild and lead to dread, fear, hope, greed and envy, in no specific order.  Trying to control these emotions is a challenge, so this group decide to create the following repository to help us determine a strategy to produce go long signals and targets, test our theories and begin to automate our processes while incorporating some fintech we have learned in our bootcamp.  You will find the repository has the initial workings of an algorithmic trading bot that uses supervised machine learning models incorporating Tensorflow, Keras and Scikit-Learn libraries to analyze Bollinger Bands and Keltner Channels, for a squeeze breakout signal, in conjunction with slow and fast Exponential Moving Averages (EMA), for a directional signal, to make predicted decisions.  In addition to the previous models, an LSTM model to estimate price is also used to predict an entry point for a go long position.
 
 ---
+## The underlying strategy
+
+### **The Squeeze and the Bulge:**
+
+<img src=./Images/strategy_and_indicators.gif width="500" align="right" />The strategy is based on detecting two stages of the market: the squeeze and the bulge. The squeeze is the market sideways movement, kind of like a pause on the "trend" in which the market moves up and/or down for a period of time without making any new high or low, while the bulge is the stage in which the market is trending, creating higher highs or lower lows depending if the market is trending up or down. 
+
+Typically the market cycles between these two stages, in which it appears calm (when market has no new high or low) for a period of time and later moves (up or down) with clear or obvious direction. So, identifying
+
+Is during these periods of apparent calm (sideways activity) or of a "squeeze" that we intent to get in.
+
+To objectively define the squeeze, we combined two indicators: the bollinger bands (https://www.bollingerbands.com/) and a modified Keltner Channel. Both indicators use 20 period, 2 Standard deviation for the Bollinger Bands, and 2 ATR (Average true range) for the Keltner Channel. 
+
+
 
 ## Summary
 
@@ -115,9 +128,9 @@ def target_generator(dataframe_name, col_name1, col_name2, target_col_name):
 
 - [2] https://rice.bootcampcontent.com/Rice-Coding-Bootcamp/rice-hou-fin-pt-09-2020-u-c/blob/master/class/15-Algorithmic-Trading/1/Activities/01-Evr_Simple_Trading_Algorithm/Solved/simple_trading_algorithm.ipynb
 
-- [3]
+- [3] https://en.wikipedia.org/wiki/Keltner_channel
 
-- [4]
+- [4] https://en.wikipedia.org/wiki/Bollinger_Bands
 
 - [5]
 
