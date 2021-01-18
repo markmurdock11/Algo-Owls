@@ -71,6 +71,13 @@ Since specificity needs to be increased (above 80%), this model needs more analy
   
 </table>
 
+In regards to the Precision-Recall curve the Squeeze random Forest Model surpassed the minimum threhold of 0.5 (no-skill classifier) with an Area Under the Curve (AUC) of 0.70. Refer to table 2 for Precision-Recall Charts.
+
+## Machine Learning "EMAs Crossover" Predictions & Metrics:
+
+We designed a Random Forest Classifier, to predict one period (15 minutes) ahead the crossover of 2 Exponential Moving Averages (Fast and Slow EMAs). The fast EMA is based on a 9 period while the Slow EMA based on a 21 period. Since, we only are looking for to predict Bullish opportunities (to go Long), we only trained the model to look for the Fast EMA to cross above the Slow EMA.
+
+
 
 <p style="text-align: center;"> <font size="4"> Table 2 </font></p>
 <table>
@@ -86,6 +93,14 @@ Since specificity needs to be increased (above 80%), this model needs more analy
   </tr>
   </table>
 
+Precision on this model turned up low (6%), suspected caused by the undersampling process that this model went thru to balance the dataset from 44:1 Ratio to 1:1 Ratio. The original training dataset was scarced on occurences (1), and the majority of the dataset (6356 datapoints) were biased toward the zero. To balance the traning dataset the only possible balancing procedure applicable to this type of data (time series) was undersampling; which may have skewed the two most important features for this classifier (the EMA distance and the delta). Refer to features importance chart below for the score.
+
+![RF Relevancy scores](./Images/features_importances.png)
+
+Further analysis of the Precision-Recall Curve confirmed the poor performance (Table 2) with an Area Under The Curve (AUC) not exceeding the 0.5 threhold of a no-skill classifier.
+
+Due to the poor performance of this EMA crossover model, it is concluded that further analysis (possibly reconfiguring) needs to be done, to improve Precision and AUC of the Precision-Recall Curve.
+
 ## Summary
 
 * The LSTM binary model caused barriers to the Machine Learning
@@ -97,10 +112,6 @@ Since specificity needs to be increased (above 80%), this model needs more analy
 ---
 
 ## Screenshots
-
-* Strategy and Indicators (Bollinger Band Upper and Lower inside Keltner Channel Upper and Lower with EMA crossover in up direction)
-
-![Strategy and Indicators](./Images/strategy_and_indicators.gif)
 
 * LSTM Price (Actual vs Predicted)
 
@@ -135,15 +146,59 @@ Since specificity needs to be increased (above 80%), this model needs more analy
 
 ## Code Examples
 
-* Squeeze random forest code
-```python
-    #code goes here
+* Squeeze random forest target column code (Easy Language code):
+<img src=./Images/EL_squeeze_code.png width="500" align="center" />
+```
+    {!p2_squeeze_id: this indicator is to generate
+numbers 1 or 0 when bollinger band are inside the keltner
+}
+inputs:  
+	Price( Close ) [DisplayName = "Price", ToolTip = 
+	 "Enter an EasyLanguage expression."], 
+	Length( 20 ) [DisplayName = "Length", ToolTip = 
+	 "Enter the number of bars to be used in the calculation of the average true range."], 
+	NumATRs( 2 ), NumDevsUp ( 2 ), NumDevsDn (-2 );
+	
+variables:  
+	Avg( 0 ), 
+	Shift( 0 ), 
+	kclo( 0 ), 
+	kcup( 0 ),
+	SDev (0),
+	bbup (0),
+	bblo (0),
+	squeeze (0) ;
+
+//Keltner Channel code
+
+Avg = AverageFC( Price, Length ) ;
+Shift = NumATRs * AvgTrueRange( Length ) ;
+kcup = Avg + Shift ;
+kclo = Avg - Shift ;
+
+// Bollinger Bands code
+
+SDev = StandardDev( Price, Length, 1 ) ;
+bbup = Avg + NumDevsUp * SDev ;
+bblo = Avg + NumDevsDn * SDev ;
+
+// Comparison code
+
+If bbup <= kcup and bblo >= kclo then 
+	squeeze = 1
+
+Else squeeze = 0; 
+
+// Plotting squeeze code:
+
+Plot1( squeeze, !( "squeeze" ) ) ;
 ```
 
-* EMA random forest code
-```python
-    #code goes here
-```
+
+
+* EMA random forest code (Easy Language code):
+
+<img src=./Images/EL_code_ema_cross_up_only.png width="450" align="center" />  
 
 * LSTM price code
 ```python
