@@ -3,6 +3,7 @@ A group project via the Rice University FinTech Bootcamp to demonstrate FinTech 
 
 ## Table of contents
 * [General Information](#general-information)
+* [The Underlying Strategy](#the-underlying-strategy)
 * [Summary](#summary)
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
@@ -19,7 +20,7 @@ A group project via the Rice University FinTech Bootcamp to demonstrate FinTech 
 Securities trading can be complex for individuals and businesses.  Emotions can run wild and lead to dread, fear, hope, greed and envy, in no specific order.  Trying to control these emotions is a challenge, so this group decide to create the following repository to help us determine a strategy to produce go long signals and targets, test our theories and begin to automate our processes while incorporating some fintech we have learned in our bootcamp.  You will find the repository has the initial workings of an algorithmic trading bot that uses supervised machine learning models incorporating Tensorflow, Keras and Scikit-Learn libraries to analyze Bollinger Bands and Keltner Channels, for a squeeze breakout signal, in conjunction with slow and fast Exponential Moving Averages (EMA), for a directional signal, to make predicted decisions.  In addition to the previous models, an LSTM model to estimate price is also used to predict an entry point for a go long position.
 
 ---
-## The underlying strategy
+## The Underlying Strategy
 
 ### **The Squeeze and the Bulge:**
 
@@ -193,8 +194,6 @@ Else squeeze = 0;
 
 Plot1( squeeze, !( "squeeze" ) ) ;
 ```
-
-
 
 * EMA random forest code (Easy Language code):
 
