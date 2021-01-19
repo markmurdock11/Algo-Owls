@@ -118,6 +118,9 @@ Due to the poor performance of this EMA crossover model, it is concluded that fu
 
 ![LSTM Price Plot](./Images/lstm_price_graph.png)
 
+We designed an LSTM model to predict the entry price fiteen minutes ahead of time. This model could be tweaked very easily to predict the target price (when there is a EMA cross and a squeeze) as well. We trained the model using JP Morgan's stock ticker. 
+
+
 ---
 
 ## Technologies
@@ -201,10 +204,36 @@ Plot1( squeeze, !( "squeeze" ) ) ;
 
 * LSTM price code
 
-```python
-    #LSTM code goes here
+```
+# Define the LSTM RNN model.
+model = Sequential()
+
+# Initial model setup
+number_units = 30
+dropout_fraction = 0.2
+
+# Layer 1
+model.add(LSTM(
+    units=number_units,
+    return_sequences=True,
+    input_shape=(X_train.shape[1], 1))
+    )
+model.add(Dropout(dropout_fraction))
+
+# Layer 2
+model.add(LSTM(units=number_units, return_sequences=True))
+model.add(Dropout(dropout_fraction))
+
+# Layer 3
+model.add(LSTM(units=number_units))
+model.add(Dropout(dropout_fraction))
+
+# Output layer
+model.add(Dense(1))
 
 ```
+
+
 
 * Combined Squeeze and EMA target generator code for automation
 
