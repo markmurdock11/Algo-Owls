@@ -200,11 +200,14 @@ Plot1( squeeze, !( "squeeze" ) ) ;
 <img src=./Images/EL_code_ema_cross_up_only.png width="450" align="center" />  
 
 * LSTM price code
+
 ```python
-    #code goes here
+    #LSTM code goes here
+
 ```
 
 * Combined Squeeze and EMA target generator code for automation
+
 ```python
 def target_generator(dataframe_name, col_name1, col_name2, target_col_name):
     """Creates a target for long position
